@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "input_processing.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -91,12 +91,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
+  //	  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 0);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
+
 	  fsm_for_input_processing();
     /* USER CODE BEGIN 3 */
   }
@@ -196,14 +198,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(BUTTON_1_GPIO_Port, BUTTON_1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED2_Pin|LED1_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : BUTTON_1_Pin */
-  GPIO_InitStruct.Pin = BUTTON_1_Pin;
+  /*Configure GPIO pins : LED2_Pin LED1_Pin */
+  GPIO_InitStruct.Pin = LED2_Pin|LED1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(BUTTON_1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 

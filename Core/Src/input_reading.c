@@ -6,7 +6,7 @@
  */
 #include "main.h"
 
-#define NUMBER_OF_BUTTON 				1
+#define NUMBER_OF_BUTTON				2
 #define DURATION_FOR_AUTO_INCREASING	100
 
 #define BUTTON_IS_PRESSED                  GPIO_PIN_RESET
@@ -23,6 +23,15 @@ static GPIO_PinState debounceButtonBuffer2[NUMBER_OF_BUTTON];
 static uint16_t counterForButtonPress1s[NUMBER_OF_BUTTON];
 static uint8_t flagForButtonPress1s[NUMBER_OF_BUTTON];
 
+static GPIO_TypeDef * ButtonPort[NUMBER_OF_BUTTON] = {
+		LED1_GPIO_Port,
+		LED2_GPIO_Port
+};
+
+static uint16_t ButtonPin[NUMBER_OF_BUTTON] = {
+		LED1_Pin,
+		LED2_Pin
+};
 
 unsigned char is_button_pressed(uint8_t index){
 	if(index >= NUMBER_OF_BUTTON) return 0;
@@ -37,8 +46,10 @@ unsigned char is_button_press_1s(unsigned char index){
 //If the values are the same, update the value to buttonBuffer.
 void button_reading(void){
 	for(uint8_t i = 0; i < NUMBER_OF_BUTTON; i ++){
+		//read pin, check for bounce
 		debounceButtonBuffer2[i] = debounceButtonBuffer1[i];
-		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(BUTTON_1_GPIO_Port, BUTTON_1_Pin);
+		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(ButtonPort[i], ButtonPin[i]);
+
 		if(debounceButtonBuffer1[i] == debounceButtonBuffer2[i]){
 			buttonBuffer[i] = debounceButtonBuffer1[i];
 			if(buttonBuffer[i] == BUTTON_IS_PRESSED){
