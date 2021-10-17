@@ -13,7 +13,7 @@
 //Maximum number of digits
 #define NUMBER_OF_DECIMAL_DIGITS 	10
 #define NUMBER_OF_SEVEN_SEGMENTS	4
-
+#define NUMBER_OF_EDGES				7
 /*LED CONVERSION
  * A is least significant bit
  * G is the most significant bit
@@ -36,63 +36,90 @@ uint8_t update_value_segment(uint8_t value, int idx)
 	 return 1;
 }
 
+
+static GPIO_TypeDef * sevenSegmentDataPort[NUMBER_OF_EDGES] = {
+		SEG0_GPIO_Port,
+		SEG1_GPIO_Port,
+		SEG2_GPIO_Port,
+		SEG3_GPIO_Port,
+		SEG4_GPIO_Port,
+		SEG5_GPIO_Port,
+		SEG6_GPIO_Port
+};
+static uint16_t sevenSegmentDataPin[NUMBER_OF_EDGES] = {
+		SEG0_Pin,
+		SEG1_Pin,
+		SEG2_Pin,
+		SEG3_Pin,
+		SEG4_Pin,
+		SEG5_Pin,
+		SEG6_Pin
+};
 //get signals from segmentbuffer then writepin accordingly
 void display_segment_number(int idx){
 	uint8_t temp = sevenSegmentLEDConversion[segmentBuffer[idx]];
 	//AND WITH EACH BIT IN 7 STARTING BITS
 	//A
-	if(temp & 0x01){
-		HAL_GPIO_WritePin(SEG0_GPIO_Port , SEG0_Pin , 0);
-	} else{
-		HAL_GPIO_WritePin(SEG0_GPIO_Port , SEG0_Pin , 1);
+//	if(temp & 0x01){
+//		HAL_GPIO_WritePin(SEG0_GPIO_Port , SEG0_Pin , 0);
+//	} else{
+//		HAL_GPIO_WritePin(SEG0_GPIO_Port , SEG0_Pin , 1);
+//	}
+//	//B
+//	if(temp & 0x02){
+//		HAL_GPIO_WritePin(SEG1_GPIO_Port , SEG1_Pin , 0);
+//	} else{
+//		HAL_GPIO_WritePin(SEG1_GPIO_Port , SEG1_Pin , 1);
+//	}
+//	//C
+//	if(temp & 0x04){
+//		HAL_GPIO_WritePin(SEG2_GPIO_Port , SEG2_Pin , 0);
+//	} else{
+//		HAL_GPIO_WritePin(SEG2_GPIO_Port , SEG2_Pin , 1);
+//	}
+//	//D
+//	if(temp & 0x08){
+//		HAL_GPIO_WritePin(SEG3_GPIO_Port , SEG3_Pin , 0);
+//	} else{
+//		HAL_GPIO_WritePin(SEG3_GPIO_Port , SEG3_Pin , 1);
+//	}
+//	//E
+//	if(temp & 0x10){
+//		HAL_GPIO_WritePin(SEG4_GPIO_Port , SEG4_Pin , 0);
+//	} else{
+//		HAL_GPIO_WritePin(SEG4_GPIO_Port , SEG4_Pin , 1);
+//	}
+//	//F
+//	if(temp & 0x20){
+//		HAL_GPIO_WritePin(SEG5_GPIO_Port , SEG5_Pin , 0);
+//	} else{
+//		HAL_GPIO_WritePin(SEG5_GPIO_Port , SEG5_Pin , 1);
+//	}
+//	//G
+//	if(temp & 0x40){
+//		HAL_GPIO_WritePin(SEG6_GPIO_Port , SEG6_Pin , 0);
+//	} else{
+//		HAL_GPIO_WritePin(SEG6_GPIO_Port , SEG6_Pin , 1);
+//	}
+	uint8_t i;
+	for(i = 0; i < NUMBER_OF_EDGES ; i++){
+		if((temp>>i) & 0x01){
+			HAL_GPIO_WritePin(sevenSegmentDataPort[i], sevenSegmentDataPin[i], 0);
+		} else{
+			HAL_GPIO_WritePin(sevenSegmentDataPort[i], sevenSegmentDataPin[i], 1);
+		}
 	}
-	//B
-	if(temp & 0x02){
-		HAL_GPIO_WritePin(SEG1_GPIO_Port , SEG1_Pin , 0);
-	} else{
-		HAL_GPIO_WritePin(SEG1_GPIO_Port , SEG1_Pin , 1);
-	}
-	//C
-	if(temp & 0x04){
-		HAL_GPIO_WritePin(SEG2_GPIO_Port , SEG2_Pin , 0);
-	} else{
-		HAL_GPIO_WritePin(SEG2_GPIO_Port , SEG2_Pin , 1);
-	}
-	//D
-	if(temp & 0x08){
-		HAL_GPIO_WritePin(SEG3_GPIO_Port , SEG3_Pin , 0);
-	} else{
-		HAL_GPIO_WritePin(SEG3_GPIO_Port , SEG3_Pin , 1);
-	}
-	//E
-	if(temp & 0x10){
-		HAL_GPIO_WritePin(SEG4_GPIO_Port , SEG4_Pin , 0);
-	} else{
-		HAL_GPIO_WritePin(SEG4_GPIO_Port , SEG4_Pin , 1);
-	}
-	//F
-	if(temp & 0x20){
-		HAL_GPIO_WritePin(SEG5_GPIO_Port , SEG5_Pin , 0);
-	} else{
-		HAL_GPIO_WritePin(SEG5_GPIO_Port , SEG5_Pin , 1);
-	}
-	//G
-	if(temp & 0x40){
-		HAL_GPIO_WritePin(SEG6_GPIO_Port , SEG6_Pin , 0);
-	} else{
-		HAL_GPIO_WritePin(SEG6_GPIO_Port , SEG6_Pin , 1);
-	}
-
 
 }
 
 
 //ARRAY FOR VALUES OF 4 LED
 //THIS IS NOT THE ARRAY FOR DISPLAYING.
-int led_buffer[4] = {1, 2, 3, 4};
+int led_buffer[4] = {0, 1, 0, 1};
 int index_led = 0;
 //update led_index and EN signals
-void update7SEG(int index){
+
+void update7SEG(uint8_t index){
 	switch(index){
 		case 0:
 			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, 0);
@@ -134,6 +161,12 @@ void update7SEG(int index){
 			break;
 	}
 }
+void clear7SEG(void){
+	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, 1);
+	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, 1);
+	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, 1);
+	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, 1);
+}
 
 //update led_buffer
 void updateClockBuffer(int mode, int led_duration){
@@ -155,10 +188,14 @@ void updateClockBuffer(int mode, int led_duration){
 
 
 }
+
+
 //update second, minute,hour
 //based on timer2_counter, display the appropriate 7SEGs, 250ms for each 7SEG
-void displayClock(int timer2_counter){
-
+void displayClock(int timer2_counter, uint16_t DelayTimerForSegment){
+	  if (isTimer0() == 1){
+			  setTimer0(DelayTimerForSegment);
+		  }
   	   	  //each 7SEG is ON for 250ms
   	   	  if(timer2_counter > 75) {
   	   		  update7SEG(0);
@@ -172,4 +209,5 @@ void displayClock(int timer2_counter){
   	   	  else if(timer2_counter > 0) {
   	   		  update7SEG(3);
   	   	  }
+
 }

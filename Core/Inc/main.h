@@ -47,6 +47,8 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
+#define TIMER_CYCLE 	10
+
 
 /* USER CODE END EM */
 
@@ -58,10 +60,48 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED2_Pin GPIO_PIN_3
-#define LED2_GPIO_Port GPIOA
-#define LED1_Pin GPIO_PIN_5
-#define LED1_GPIO_Port GPIOA
+#define EN0_Pin GPIO_PIN_6
+#define EN0_GPIO_Port GPIOA
+#define EN1_Pin GPIO_PIN_7
+#define EN1_GPIO_Port GPIOA
+#define SEG0_Pin GPIO_PIN_0
+#define SEG0_GPIO_Port GPIOB
+#define SEG1_Pin GPIO_PIN_1
+#define SEG1_GPIO_Port GPIOB
+#define SEG2_Pin GPIO_PIN_2
+#define SEG2_GPIO_Port GPIOB
+#define RED2_Pin GPIO_PIN_10
+#define RED2_GPIO_Port GPIOB
+#define YELLOW2_Pin GPIO_PIN_11
+#define YELLOW2_GPIO_Port GPIOB
+#define GREEN2_Pin GPIO_PIN_12
+#define GREEN2_GPIO_Port GPIOB
+#define EN2_Pin GPIO_PIN_8
+#define EN2_GPIO_Port GPIOA
+#define EN3_Pin GPIO_PIN_9
+#define EN3_GPIO_Port GPIOA
+#define BUTTON1_Pin GPIO_PIN_10
+#define BUTTON1_GPIO_Port GPIOA
+#define BUTTON2_Pin GPIO_PIN_11
+#define BUTTON2_GPIO_Port GPIOA
+#define BUTTON3_Pin GPIO_PIN_12
+#define BUTTON3_GPIO_Port GPIOA
+#define BUTTON4_Pin GPIO_PIN_13
+#define BUTTON4_GPIO_Port GPIOA
+#define SEG3_Pin GPIO_PIN_3
+#define SEG3_GPIO_Port GPIOB
+#define SEG4_Pin GPIO_PIN_4
+#define SEG4_GPIO_Port GPIOB
+#define SEG5_Pin GPIO_PIN_5
+#define SEG5_GPIO_Port GPIOB
+#define SEG6_Pin GPIO_PIN_6
+#define SEG6_GPIO_Port GPIOB
+#define RED1_Pin GPIO_PIN_7
+#define RED1_GPIO_Port GPIOB
+#define YELLOW1_Pin GPIO_PIN_8
+#define YELLOW1_GPIO_Port GPIOB
+#define GREEN1_Pin GPIO_PIN_9
+#define GREEN1_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

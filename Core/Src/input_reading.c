@@ -6,31 +6,61 @@
  */
 #include "main.h"
 
-#define NUMBER_OF_BUTTON				2
+#define NUMBER_OF_BUTTON				4
 #define DURATION_FOR_AUTO_INCREASING	100
 
 #define BUTTON_IS_PRESSED                  GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED                 GPIO_PIN_SET
 
 //the buffer that the final result is stored after deboucing
-static GPIO_PinState buttonBuffer[NUMBER_OF_BUTTON];
+static GPIO_PinState buttonBuffer[NUMBER_OF_BUTTON] = {
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED
+};
 
 
 //we define two buffers for debouncing
-static GPIO_PinState debounceButtonBuffer1[NUMBER_OF_BUTTON];
-static GPIO_PinState debounceButtonBuffer2[NUMBER_OF_BUTTON];
+static GPIO_PinState debounceButtonBuffer1[NUMBER_OF_BUTTON] = {
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED
+};
+static GPIO_PinState debounceButtonBuffer2[NUMBER_OF_BUTTON]= {
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED,
+		BUTTON_IS_RELEASED
+};
 
-static uint16_t counterForButtonPress1s[NUMBER_OF_BUTTON];
-static uint8_t flagForButtonPress1s[NUMBER_OF_BUTTON];
+static uint16_t counterForButtonPress1s[NUMBER_OF_BUTTON]= {
+		0,
+		0,
+		0,
+		0
+};
+static uint8_t flagForButtonPress1s[NUMBER_OF_BUTTON] = {
+		0,
+		0,
+		0,
+		0
+};
+
 
 static GPIO_TypeDef * ButtonPort[NUMBER_OF_BUTTON] = {
-		LED1_GPIO_Port,
-		LED2_GPIO_Port
+		BUTTON1_GPIO_Port,
+		BUTTON2_GPIO_Port,
+		BUTTON3_GPIO_Port,
+		BUTTON4_GPIO_Port
 };
 
 static uint16_t ButtonPin[NUMBER_OF_BUTTON] = {
-		LED1_Pin,
-		LED2_Pin
+		BUTTON1_Pin,
+		BUTTON2_Pin,
+		BUTTON3_Pin,
+		BUTTON4_Pin
 };
 
 unsigned char is_button_pressed(uint8_t index){
@@ -45,7 +75,7 @@ unsigned char is_button_press_1s(unsigned char index){
 //two consecutive times and compare the values.
 //If the values are the same, update the value to buttonBuffer.
 void button_reading(void){
-	for(uint8_t i = 0; i < NUMBER_OF_BUTTON; i ++){
+	for(uint8_t i = 0; i < NUMBER_OF_BUTTON; i++){
 		//read pin, check for bounce
 		debounceButtonBuffer2[i] = debounceButtonBuffer1[i];
 		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(ButtonPort[i], ButtonPin[i]);
@@ -57,8 +87,7 @@ void button_reading(void){
 					counterForButtonPress1s[i]++;
 				} else {
 					flagForButtonPress1s[i] = 1;
-					counterForButtonPress1s[i] = 0;
-					//todo
+
 				}
 
 			} else {
