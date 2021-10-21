@@ -8,7 +8,7 @@
 
 #include "main.h"
 #include "segment_display.h"
-
+#include "timer.h"
 
 //Maximum number of digits
 #define NUMBER_OF_DECIMAL_DIGITS 	10
@@ -192,21 +192,21 @@ void updateClockBuffer(int mode, int led_duration){
 
 //update second, minute,hour
 //based on timer2_counter, display the appropriate 7SEGs, 250ms for each 7SEG
-void displayClock(int timer2_counter, uint16_t DelayTimerForSegment){
+void displayClock(int timer0_counter, uint16_t DelayTimerForSegment){
 	  if (isTimer0() == 1){
 			  setTimer0(DelayTimerForSegment);
 		  }
   	   	  //each 7SEG is ON for 250ms
-  	   	  if(timer2_counter > 75) {
+  	   	  if(timer0_counter > 75) {
   	   		  update7SEG(0);
   	   	  }
-  	   	  else if(timer2_counter > 50){
+  	   	  else if(timer0_counter > 50){
   	   		  update7SEG(1);
   	   	  }
-  	   	  else if(timer2_counter > 25) {
+  	   	  else if(timer0_counter > 25) {
   	   		  update7SEG(2);
   	   	  }
-  	   	  else if(timer2_counter > 0) {
+  	   	  else if(timer0_counter > 0) {
   	   		  update7SEG(3);
   	   	  }
 

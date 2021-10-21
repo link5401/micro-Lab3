@@ -101,9 +101,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   uint16_t DelayTimerForSegment = 1000;
   uint16_t DelayTimerForBlink = 250;
+  uint16_t InitDelayTimerForLEDSys = 1000;
   setTimer0( DelayTimerForSegment );
   setTimer1(DelayTimerForBlink);
-  setTimerLED(1000);
+  setTimerLED(InitDelayTimerForLEDSys);
  clear7SEG();
  clearAllLEDs();
  buttonStatesInit();

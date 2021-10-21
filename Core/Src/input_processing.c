@@ -35,14 +35,16 @@ void buttonStatesInit(void ){
 
 }
 uint8_t mode = 1;
+uint16_t DURATION = 1;
 void fsm_for_BUTTON1(void){
 
 	switch(buttonStates[BUTTON1]){
 		case BUTTON_RELEASED:
 			if(is_button_pressed(BUTTON1)){
 				mode++;
+				DURATION = 1;
 				if(mode > 4) {mode = 1;clearAllLEDs();}
-				updateClockBuffer(mode,1);
+				updateClockBuffer(mode,DURATION);
 				buttonStates[BUTTON1] = BUTTON_PRESSED;
 			}
 			break;
@@ -57,8 +59,9 @@ void fsm_for_BUTTON1(void){
 			break;
 		case BUTTON_PRESSED_MORE_THAN_1_SECOND:
 			mode++;
+			DURATION = 1;
 			if(mode > 4) {mode = 1;clearAllLEDs();}
-			updateClockBuffer(mode,1);
+			updateClockBuffer(mode,DURATION);
 			if(!is_button_pressed(BUTTON1)){
 				buttonStates[BUTTON1] = BUTTON_RELEASED;
 			}
@@ -67,7 +70,7 @@ void fsm_for_BUTTON1(void){
 
 }
 //increase
-uint16_t DURATION = 1;
+
 void fsm_for_BUTTON2(void){
 
 	switch(buttonStates[BUTTON2]){
