@@ -1,0 +1,12 @@
+timer.c:17:6:setTimer0	16	static
+timer.c:21:6:timer0_run	4	static
+timer.c:28:9:isTimer0	4	static
+timer.c:32:6:displaySegment	16	static
+timer.c:42:6:setTimerLED	16	static
+timer.c:47:6:timerLED_run	4	static
+timer.c:54:9:isTimerLED	4	static
+timer.c:58:6:displayLED	8	static
+timer.c:68:6:setTimer1	16	static
+timer.c:72:6:timer1_run	4	static
+timer.c:79:9:isTimer1	4	static
+timer.c:86:6:HAL_TIM_PeriodElapsedCallback	16	static

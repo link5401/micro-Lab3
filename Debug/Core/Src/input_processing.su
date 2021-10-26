@@ -1,0 +1,6 @@
+input_processing.c:30:6:buttonStatesInit	8	static
+input_processing.c:39:6:fsm_for_BUTTON1	8	static
+input_processing.c:74:6:fsm_for_BUTTON2	8	static
+input_processing.c:107:6:fsm_for_BUTTON3	8	static
+input_processing.c:141:6:fsm_for_BUTTON4	8	static
+input_processing.c:173:9:current_mode	4	static
